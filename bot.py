@@ -7,7 +7,7 @@ from discord.ext import commands
 from functions import *
 
 BOT_PREFIX = '--'
-TOKEN='Njg5MDIwNjQxNzM5MTQ1MjM2.XsJDAQ.oC7Rv8M9MlpzYVGw_qJVlfMBg7M'
+TOKEN=''
 bot = commands.Bot(command_prefix=BOT_PREFIX)
 
 log = [] # not used for the moment
