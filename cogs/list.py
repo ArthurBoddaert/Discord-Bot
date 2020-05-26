@@ -58,7 +58,8 @@ class ListCog(commands.Cog):
 	                    memberRoles += role.name
 	                    if not role == member.roles[(len(member.roles)-1)]:
 	                        memberRoles += ","
-	                file.write(pseudo(member)+":"+str(member.id)+":"+memberRoles+"\n")
+	                memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)
+	            file.write('\n'.join(sorted(memberList)))
 	            file.close()
 	            return await ctx.send(file=discord.File("./files/list-o/"+args[1]+".txt", filename=args[1]))
 	        # with a status
