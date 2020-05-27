@@ -22,11 +22,14 @@ class RolelistCog(commands.Cog):
 	    args: List[str]
 	        Every single word following the name of the command
 	    """
+	    roleList = []
 	    embed = discord.Embed(title="--rolelist")
 	    text = ""
 	    for role in ctx.guild.roles:
 	        if role.name != "@everyone":
-	            text += role.name + "\n"
+	        	roleList.append(role.name)
+	    roleList.reverse()
+	    text = '\n'.join(roleList)
 	    embed.description = text
 	    await ctx.send(embed=embed)
 

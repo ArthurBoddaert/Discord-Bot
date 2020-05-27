@@ -38,6 +38,7 @@ class ListCog(commands.Cog):
 	    """
 	    embed = discord.Embed(title="--list")
 	    text = ""
+	    textList = []
 	    memberList = []
 	    memberListRole = []
 	    memberListStatut = []
@@ -99,7 +100,8 @@ class ListCog(commands.Cog):
 	            memberList = memberListStatut
 	    text = str(len(memberList)) + " personnes trouvées" + "\n \n"
 	    for memberListItem in memberList:
-	        text += pseudo(memberListItem) + "\n"
+	    	textList.append(pseudo(memberListItem))
+	    text = '\n'.join(sorted(textList))
 	    embed.description = text;
 	    return await ctx.send(embed=embed)
 

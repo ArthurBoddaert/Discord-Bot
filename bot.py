@@ -33,6 +33,21 @@ async def on_command(ctx):
 async def on_message(message):
     await bot.process_commands(message) # necessary to keep both use on_message() and commands
 
+@bot.event
+async def on_reaction_add(reaction, user):
+	# ***** '--sondage' command with a single answer per user *****
+	if len(reaction.message.embeds) > 0:
+		embed = reaction.message.embeds[0]
+		if embed.title == '--sondageUnique':
+			if not user.bot:
+				# si 'user' réagit et qu'il a déjà réagi au paravant, on supprime ses anciennes réactions
+				for react in reaction.message.reactions:
+					if react != reaction:
+						async for usr in react.users():
+							if usr.name == user.name:
+								await react.remove(usr)
+	# ***********************************************************
+
 # ****************************************************************************
 # commands
 # ****************************************************************************
@@ -42,6 +57,14 @@ bot.load_extension('cogs.list')
 bot.load_extension('cogs.dm')
 bot.load_extension('cogs.grant')
 bot.load_extension('cogs.sondage')
+
+@bot.command(name='getlogs')
+async def getlogs(ctx):
+	if isAdministrator(ctx.message.author, ctx.message.guild):
+		file = open('./files/logs/logs.txt', 'w+')
+		file.write('\n'.join(log))
+		file.close()
+		return await ctx.send(file=discord.File('./files/logs/logs.txt', filename='logs'))
 
 # ****************************************************************************
 # main

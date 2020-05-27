@@ -28,6 +28,7 @@ class GrantCog(commands.Cog):
 	    args: List[str]
 	        Every single word following the name of the command
 		"""
+		logs = []
 		targetGuild = ctx.message.guild
 		if isAdministrator(ctx.message.author, targetGuild):
 			if len(ctx.message.attachments) > 0:
@@ -38,8 +39,10 @@ class GrantCog(commands.Cog):
 								try:
 									await member.remove_roles(role)
 									print(f'- Removing the role {role.name}#{role.id} from {member.name}')
+									logs.append(f'- Removing the role {role.name}#{role.id} from {member.name}')
 								except:
-									print(f"- ERROR: can't remove the role {role.name} from {member.name}")
+									print(f"- ERROR: can't remove the role {role.name}#{role.id} from {member.name}")
+									logs.append(f"- ERROR: can't remove the role {role.name}#{role.id} from {member.name}")
 				attachedFile = await ctx.message.attachments[0].to_file()
 				file = attachedFile.fp
 				fileText = file.read().decode("utf-8")
@@ -61,8 +64,14 @@ class GrantCog(commands.Cog):
 									try:
 										await target.add_roles(get(targetGuild.roles, name=role))
 										print(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
+										logs.append(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
 									except:
-										print("- ! something went wrong")
+										print(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
+										logs.append(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
+				file = open('./files/logs/grantlogs.txt', 'w+')
+				file.write('\n'.join(logs))
+				file.close()
+				return await ctx.message.author.send(file=discord.File('./files/logs/grantlogs.txt', filename='grantlogs'))
 			else:
 				await ctx.send("No attachment found")
 		return
