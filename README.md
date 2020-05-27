@@ -53,15 +53,19 @@ The examples given will consider the bot token is '**--**'
 
 This bot offers the possibility to use the following commands:
 
+##### rolelist
+
 The 'rolelist' creates a list of the existing roles on a server.
 
 Example: 
 - --rolelist
 
+##### list
+
 The 'list' command creates a list of all users who have a role on a server
 you can add a few arguments in order to change the result of this command
 - Followed by a role name, the command will display every user with the specified role
-- Followed by a status, the command will display every user with the specified status the statuses are 'online', 'offline', 'idle' and 'dnd' (dnd=do not disturb)
+- Followed by a status, the command will display every user with the specified status. The statutes are 'online', 'offline', 'idle' and 'dnd' (dnd=do not disturb)
 - Followed by the name of a voice channel, the command will display every user in the specified channel
 - Followed by '-o' and a file name, the bot will upload a file containing the list of the users on the discord server with their discord IDs and their roles on the server this file is also stored in the 'files/list-o/' directory
 
@@ -75,13 +79,19 @@ Examples:
 - --list my_voice_channel
 - --list -o my_file_name
 
+##### dm
+
 The 'dm' command followed by a role name and a message sends the message to every user who has the specified role. The message can also have an attachment
 
 Example:
 	--dm Members Hello world!
 
+##### grant
+
 The 'grant' command grants roles depending on the attached file. The previously mentioned file has to follow the format of the 'list -o' command.
 With the '-r' or '-reset' argument, the bot will remove every role from every user and then it will grant the fiven roles.
+
+##### sondage
 
 The 'sondage' command sends a survey with the specified question and answers.
 This command has a limit of 26 answers.
@@ -93,6 +103,8 @@ Examples:
 - --sondageUnique my question | first answer | second answer | third answer 
 - --sondage -d60 my question | first answer | second answer | third answer 
 - --sondageUnique -d60 my question | first answer | second answer | third answer 
+
+
 
 The 'getlogs' commands send you the logs of the bot, which contains the list of commands called when the bot was online
 
