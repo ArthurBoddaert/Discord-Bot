@@ -1,3 +1,5 @@
+[![made-with](https://img.shields.io/badge/Made%20with-Python_3.6_or_higher-1f425f.svg)](https://www.python.org/) [![made-with](https://img.shields.io/badge/Made%20with-Discord.py_1.3.3-1f425f.svg)](https://discordpy.readthedocs.io/en/latest/)
+
 # Discord-Bot
 by [ArthurBoddaert](https://github.com/ArthurBoddaert) and [delepoulle](https://github.com/delepoulle)
 
@@ -19,7 +21,7 @@ git clone https://github.com/ArthurBoddaert/Discord-Bot
 
 2. In the previously cloned project, you can create a virtual environment
 ```
-python -m venv ./my_virtual_environment
+python3 -m venv ./my_virtual_environment
 ```
 
 3. Then you can activate it
@@ -53,14 +55,14 @@ The examples given will consider the bot token is '**--**'
 
 This bot offers the possibility to use the following commands:
 
-##### rolelist
+#### rolelist command
 
 The 'rolelist' creates a list of the existing roles on a server.
 
 Example: 
 - --rolelist
 
-##### list
+#### list command
 
 The 'list' command creates a list of all users who have a role on a server
 you can add a few arguments in order to change the result of this command
@@ -79,19 +81,19 @@ Examples:
 - --list my_voice_channel
 - --list -o my_file_name
 
-##### dm
+#### dm command
 
 The 'dm' command followed by a role name and a message sends the message to every user who has the specified role. The message can also have an attachment
 
 Example:
 	--dm Members Hello world!
 
-##### grant
+#### grant command
 
 The 'grant' command grants roles depending on the attached file. The previously mentioned file has to follow the format of the 'list -o' command.
 With the '-r' or '-reset' argument, the bot will remove every role from every user and then it will grant the fiven roles.
 
-##### sondage
+#### sondage command
 
 The 'sondage' command sends a survey with the specified question and answers.
 This command has a limit of 26 answers.
