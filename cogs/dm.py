@@ -4,7 +4,12 @@ Created By : Delepoulle Samuel and Boddaert Arthur
 
 import discord as discord
 from discord.ext import commands
+from discord.utils import get
 from functions import *
+import json
+
+with open('./config.json', 'r') as f:
+	config = json.load(f)
 
 class DmCog(commands.Cog):
 
@@ -26,23 +31,24 @@ class DmCog(commands.Cog):
 	        Every single word following the name of the command
 	    """
 	    # specified role
-	    listRole = []
-	    for role in ctx.guild.roles:
-	        if role.name.upper() == role_arg.upper():
-	            listRole.append(role)
-	    # list of every targeted user
-	    destinataires = []
-	    for member in ctx.guild.members:
-	        for role in listRole:
-	            if member not in destinataires and role in member.roles and not member.bot:
-	                destinataires.append(member)
-	    # attachments
-	    attachmentList = []
-	    for attachment in ctx.message.attachments:
-	        attachmentList.append(await attachment.to_file())
-	    # send the message to every targeted user
-	    for destinataire in destinataires:
-	        await destinataire.send(content=" ".join(args), files=attachmentList)
+	    if ctx.message.author.top_role >= get(ctx.guild.roles, name=config['role_to_dm']):
+		    listRole = []
+		    for role in ctx.guild.roles:
+		        if role.name.upper() == role_arg.upper():
+		            listRole.append(role)
+		    # list of every targeted user
+		    destinataires = []
+		    for member in ctx.guild.members:
+		        for role in listRole:
+		            if member not in destinataires and role in member.roles and not member.bot:
+		                destinataires.append(member)
+		    # attachments
+		    attachmentList = []
+		    for attachment in ctx.message.attachments:
+		        attachmentList.append(await attachment.to_file())
+		    # send the message to every targeted user
+		    for destinataire in destinataires:
+		        await destinataire.send(content=" ".join(args), files=attachmentList)
 
 def setup(bot):
     bot.add_cog(DmCog(bot))
