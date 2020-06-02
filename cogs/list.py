@@ -5,6 +5,7 @@ Created By : Delepoulle Samuel and Boddaert Arthur
 import discord as discord
 from discord.ext import commands
 from functions import *
+from discord.utils import get
 import json
 
 with open('./config.json', 'r') as f:
@@ -54,19 +55,36 @@ class ListCog(commands.Cog):
 	            if not member.bot:  
 	                memberList.append(member)
 	    else:
-	        if args[0] == "-o" and len(args) == 2:
+	    	# upload role file
+	        if (args[0] == "-o" and len(args) == 2) or (args[1] == "-o" and len(args) == 3):
 	            memberRoles = ""
-	            file = open("./files/list-o/"+args[1]+".txt", "w+")
+	            targetRole = get(ctx.guild.roles, name='@everyone')
+	            if len(args) == 2:
+	            	file = open("./files/list-o/"+args[1]+".txt", "w+")
+	            else:
+	            	for role in ctx.guild.roles:
+	            		if role.name.upper() == args[0].upper():
+	            			targetRole = role
+	            	file = open("./files/list-o/"+args[2]+".txt", "w+")
 	            for member in ctx.guild.members:
 	                memberRoles = ""
 	                for role in member.roles:
 	                    memberRoles += role.name
 	                    if not role == member.roles[(len(member.roles)-1)]:
 	                        memberRoles += ","
-	                memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)
+	                if len(args) == 2:
+	                	memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)
+	                else:
+	                	if isinstance(targetRole, discord.Role):
+	                		if targetRole in member.roles:
+	                			print(targetRole.name)
+	                			memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)	                		
 	            file.write('\n'.join(sorted(memberList)))
 	            file.close()
-	            return await ctx.send(file=discord.File("./files/list-o/"+args[1]+".txt", filename=args[1]))
+	            if len(args) == 2:
+	            	return await ctx.send(file=discord.File("./files/list-o/"+args[1]+".txt", filename=args[1]))
+	            else:
+	            	return await ctx.send(file=discord.File("./files/list-o/"+args[2]+".txt", filename=args[2]))
 	        # with a status
 	        for arg in args:
 	            if arg.upper() in statusList:

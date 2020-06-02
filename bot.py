@@ -26,6 +26,7 @@ async def on_ready():
 @bot.event
 async def on_command(ctx):
 	print(f'Command {ctx.command.name} called by {ctx.message.author}')
+	log.append(f'Command {ctx.command.name} called by {ctx.message.author}')
 	return
 
 @bot.event
@@ -56,6 +57,9 @@ async def on_message_delete(message):
 				embed.description += '\n' + reaction.emoji + ' : ' + str(reaction.count) + ' answer(s)'
 			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=message.embeds[0])
 			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=embed)
+			await message.channel.send(embed=message.embeds[0])
+			await message.channel.send(embed=embed)
+			
 	# ***********************************************************
 
 # ****************************************************************************
@@ -68,7 +72,7 @@ bot.load_extension('cogs.dm')
 bot.load_extension('cogs.grant')
 bot.load_extension('cogs.sondage')
 
-@bot.command(name='getlogs')
+@bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
 	if isAdministrator(ctx.message.author, ctx.message.guild):
 		file = open('./files/logs/logs.txt', 'w+')
