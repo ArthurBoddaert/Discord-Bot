@@ -56,7 +56,7 @@ class ListCog(commands.Cog):
 	                memberList.append(member)
 	    else:
 	    	# upload role file
-	        if (args[0] == "-o" and len(args) == 2) or (args[1] == "-o" and len(args) == 3):
+	        if (args[0] == "-o" and len(args) == 2) or (len(args) == 3 and args[1] == "-o"):
 	            memberRoles = ""
 	            targetRole = get(ctx.guild.roles, name='@everyone')
 	            if len(args) == 2:
