@@ -5,6 +5,10 @@ Created By : Delepoulle Samuel and Boddaert Arthur
 import discord as discord
 from discord.ext import commands
 from functions import *
+import json
+
+with open('./config.json', 'r') as f:
+	config = json.load(f)
 
 class ListCog(commands.Cog):
 
@@ -36,7 +40,7 @@ class ListCog(commands.Cog):
 	    args: List[str]
 	        Every single word following the name of the command
 	    """
-	    embed = discord.Embed(title="--list")
+	    embed = discord.Embed(title=config['prefix']+'list')
 	    text = ""
 	    textList = []
 	    memberList = []

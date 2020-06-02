@@ -74,7 +74,8 @@ class GrantCog(commands.Cog):
 				return await ctx.message.author.send(file=discord.File('./files/logs/grantlogs.txt', filename='grantlogs'))
 			else:
 				await ctx.send("No attachment found")
-		return
+		else:
+			return await ctx.message.author.send('You do not have the permissions to use this command')
 
 def setup(bot):
 	bot.add_cog(GrantCog(bot))

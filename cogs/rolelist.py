@@ -5,6 +5,10 @@ Created By : Delepoulle Samuel and Boddaert Arthur
 import discord as discord
 from discord.ext import commands
 from functions import *
+import json
+
+with open('./config.json', 'r') as f:
+	config = json.load(f)
 
 class RolelistCog(commands.Cog):
 
@@ -23,7 +27,7 @@ class RolelistCog(commands.Cog):
 	        Every single word following the name of the command
 	    """
 	    roleList = []
-	    embed = discord.Embed(title="--rolelist")
+	    embed = discord.Embed(title=config['prefix']+"rolelist")
 	    text = ""
 	    for role in ctx.guild.roles:
 	        if role.name != "@everyone":

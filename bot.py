@@ -26,7 +26,6 @@ async def on_ready():
 @bot.event
 async def on_command(ctx):
 	print(f'Command {ctx.command.name} called by {ctx.message.author}')
-	log.append(f'Command {ctx.command.name} called by {ctx.message.author}')
 	return
 
 @bot.event
@@ -38,7 +37,7 @@ async def on_reaction_add(reaction, user):
 	# ***** '--sondage' command with a single answer per user *****
 	if len(reaction.message.embeds) > 0:
 		embed = reaction.message.embeds[0]
-		if embed.title == '--sondageUnique':
+		if embed.title == config['prefix']+'sondageUnique':
 			if not user.bot:
 				# si 'user' réagit et qu'il a déjà réagi au paravant, on supprime ses anciennes réactions
 				for react in reaction.message.reactions:
@@ -46,6 +45,17 @@ async def on_reaction_add(reaction, user):
 						async for usr in react.users():
 							if usr.name == user.name:
 								await react.remove(usr)
+
+@bot.event
+async def on_message_delete(message):
+	if len(message.embeds) > 0:
+		if 'sondage' in message.embeds[0].title:
+			embed = discord.Embed(author=message.author)
+			embed.description = ' '
+			for reaction in message.reactions:
+				embed.description += '\n' + reaction.emoji + ' : ' + str(reaction.count) + ' answer(s)'
+			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=message.embeds[0])
+			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=embed)
 	# ***********************************************************
 
 # ****************************************************************************
@@ -64,7 +74,7 @@ async def getlogs(ctx):
 		file = open('./files/logs/logs.txt', 'w+')
 		file.write('\n'.join(log))
 		file.close()
-		return await ctx.send(file=discord.File('./files/logs/logs.txt', filename='logs'))
+		return await ctx.message.author.send(file=discord.File('./files/logs/logs.txt', filename='logs'))
 
 # ****************************************************************************
 # main

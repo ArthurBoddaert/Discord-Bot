@@ -49,6 +49,9 @@ class DmCog(commands.Cog):
 		    # send the message to every targeted user
 		    for destinataire in destinataires:
 		        await destinataire.send(content=" ".join(args), files=attachmentList)
+		    return await ctx.message.author.send('"'+' '.join(args)+'"'+' sent to all '+role_arg.upper())
+	    else:
+	    	return await ctx.message.author.send('You do not have the permissions to use this command')
 
 def setup(bot):
     bot.add_cog(DmCog(bot))

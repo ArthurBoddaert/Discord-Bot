@@ -6,6 +6,10 @@ import discord as discord
 from discord.ext import commands
 from functions import *
 import discord.utils
+import json
+
+with open('./config.json', 'r') as f:
+	config = json.load(f)
 
 class SondageCog(commands.Cog):
 
@@ -35,10 +39,11 @@ class SondageCog(commands.Cog):
 		if arguments[0].startswith('-d'):
 			delay = float(arguments[0][2:])
 			arguments.pop(0)
-		if ctx.message.content.startswith('--sondageUnique'):
-			embed = discord.Embed(title='--sondageUnique', author=ctx.message.author)
+		if ctx.message.content.startswith(config['prefix']+'sondageUnique'):
+			embed = discord.Embed(title=config['prefix']+'sondageUnique')
 		else:
-			embed = discord.Embed(title='--sondage', author=ctx.message.author)
+			embed = discord.Embed(title=config['prefix']+'sondage')
+		embed.set_footer(text=str(ctx.message.author.id))
 		argSentence = " ".join(arguments)
 		argList = argSentence.split('|')
 		embed.description = "**" + argList[0] + "**" + "\n"
