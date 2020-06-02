@@ -77,7 +77,6 @@ class ListCog(commands.Cog):
 	                else:
 	                	if isinstance(targetRole, discord.Role):
 	                		if targetRole in member.roles:
-	                			print(targetRole.name)
 	                			memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)	                		
 	            file.write('\n'.join(sorted(memberList)))
 	            file.close()
