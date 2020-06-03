@@ -41,90 +41,80 @@ class ListCog(commands.Cog):
 	    args: List[str]
 	        Every single word following the name of the command
 	    """
-	    embed = discord.Embed(title=config['prefix']+'list')
-	    text = ""
-	    textList = []
+	    statusList = ['online', 'offline', 'dnd', 'idle', 'invisible']
 	    memberList = []
 	    memberListRole = []
-	    memberListStatut = []
-	    statusList = ["ONLINE", "OFFLINE", "IDLE", "DND", "INVISIBLE"]
-	    statusArgList = []
-	    # no parameter
+	    memberListStatus = []
+	    memberListChannel = []
 	    if len(args) == 0:
-	        for member in ctx.guild.members:
-	            if not member.bot:  
-	                memberList.append(member)
+	    	for member in ctx.guild.members:
+	    		if not member.bot:
+	    			memberList.append(member)
 	    else:
-	    	# upload role file
-	        if (args[0] == "-o" and len(args) == 2) or (len(args) == 3 and args[1] == "-o"):
-	            memberRoles = ""
-	            targetRole = get(ctx.guild.roles, name='@everyone')
-	            if len(args) == 2:
-	            	file = open("./files/list-o/"+args[1]+".txt", "w+")
-	            else:
-	            	for role in ctx.guild.roles:
-	            		if role.name.upper() == args[0].upper():
-	            			targetRole = role
-	            	file = open("./files/list-o/"+args[2]+".txt", "w+")
-	            for member in ctx.guild.members:
-	                memberRoles = ""
-	                for role in member.roles:
-	                    memberRoles += role.name
-	                    if not role == member.roles[(len(member.roles)-1)]:
-	                        memberRoles += ","
-	                if len(args) == 2:
-	                	memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)
-	                else:
-	                	if isinstance(targetRole, discord.Role):
-	                		if targetRole in member.roles:
-	                			memberList.append(pseudo(member)+':'+str(member.id)+':'+memberRoles)	                		
-	            file.write('\n'.join(sorted(memberList)))
-	            file.close()
-	            if len(args) == 2:
-	            	return await ctx.send(file=discord.File("./files/list-o/"+args[1]+".txt", filename=args[1]))
-	            else:
-	            	return await ctx.send(file=discord.File("./files/list-o/"+args[2]+".txt", filename=args[2]))
-	        # with a status
-	        for arg in args:
-	            if arg.upper() in statusList:
-	                statusArgList.append(arg)
-	                for member in ctx.guild.members:
-	                    if check_statut(member, arg):
-	                        if member not in memberListStatut and not member.bot:
-	                            memberListStatut.append(member)
-
-	        # with a role
-	        for arg in args:
-	            for role in ctx.guild.roles:
-	                if role.name.upper() == arg.upper():
-	                    for member in ctx.guild.members:
-	                        if role in member.roles:
-	                            if member not in memberListRole and not member.bot:
-	                                memberListRole.append(member)
-
-	        # voice channel as a parameter
-	        for arg in args:
-	            for voice_channel in ctx.guild.voice_channels:
-	                if voice_channel.name.upper() == arg.upper():
-	                    for member in voice_channel.members:
-	                        if member not in memberList and not member.bot:
-	                            memberList.append(member)
-
-	    if len(memberListRole) > 0 and len(memberListStatut) > 0:
-	        for item in memberListRole:
-	            if item in memberListStatut:
-	                memberList.append(item)
-	    else:
-	        if len(memberListRole) > 0:
-	            memberList = memberListRole
-	        if len(memberListStatut) > 0:
-	            memberList = memberListStatut
-	    text = str(len(memberList)) + " personnes trouvées" + "\n \n"
-	    for memberListItem in memberList:
-	    	textList.append(pseudo(memberListItem))
-	    text = '\n'.join(sorted(textList))
-	    embed.description = text;
-	    return await ctx.send(embed=embed)
+	    	for arg in args:
+	    		# if 'args' contains a role
+	    		for role in ctx.guild.roles:
+	    			if arg.upper() == role.name.upper():
+	    				for member in ctx.guild.members:
+	    					for memberRole in member.roles:
+	    						if arg.upper() == memberRole.name.upper():
+	    							if member not in memberListRole and not member.bot:
+	    								memberListRole.append(member)
+	    		# if 'args' contains a status
+	    		for status in statusList:
+	    			for member in ctx.guild.members:
+	    				if check_status(member, arg):
+	    					if member not in memberListStatus and not member.bot:
+	    						memberListStatus.append(member)
+	    		# if 'args' contains a voice channel name
+	    		for channel in ctx.guild.voice_channels:
+	    			if arg.upper() == channel.name.upper():
+	    				for member in channel.members:
+	    					if member not in memberListChannel and not member.bot:
+	    						memberListChannel.append(member)
+	    	# list intersections
+	    	if len(memberListRole) > 0 and len(memberListStatus) > 0 and len(memberListChannel) > 0:
+	    		for member in memberListRole:
+	    			if member in memberListStatus and member in memberListChannel:
+	    				memberList.append(member)
+	    	elif len(memberListRole) > 0 and len(memberListStatus) and len(memberListChannel) == 0:
+	    		for member in memberListRole:
+	    			if member in memberListStatus:
+	    				memberList.append(member)
+	    	elif len(memberListRole) > 0 and len(memberListChannel) and len(memberListStatus) == 0:
+	    		for member in memberListRole:
+	    			if member in memberListChannel:
+	    				memberList.append(member)
+	    	elif len(memberListChannel) > 0 and len(memberListStatus) and len(memberListRole) == 0:
+	    		for member in memberListChannel:
+	    			if member in memberListStatus:
+	    				memberList.append(member)
+	    	elif len(memberListRole) > 0 and len(memberListStatus) == 0 and len(memberListChannel) == 0:
+	    		memberList = memberListRole
+	    	elif len(memberListStatus) > 0 and len(memberListChannel) == 0 and len(memberListRole) == 0:
+	    		memberList = memberListStatus
+	    	elif len(memberListChannel) > 0 and len(memberListRole) == 0 and len(memberListStatus) == 0:
+	    		memberList = memberListChannel
+	    	# if 'args' contains '-o'
+	    	if len(args) >= 2 and args[len(args)-2] == '-o':
+	    		file = open('./files/list-o/'+args[len(args)-1]+'.txt', 'w+')
+	    		roleNameList = []
+	    		rows = []
+	    		for member in memberList:
+	    			for role in member.roles:
+	    				roleNameList.append(role.name)
+	    			rows.append(pseudo(member)+';'+str(member.id)+';'+','.join(roleNameList))
+	    		file.write('\n'.join(rows))
+	    		file.close()
+	    		return await ctx.send(file=discord.File('./files/list-o/'+args[len(args)-1]+'.txt', filename=args[len(args)-1]))
+	    embed = discord.Embed(title=config['prefix']+'list')
+	    embed.description = str(len(memberList)) + ' user(s) found \n\n'
+	    for member in memberList:
+	    	embed.description += pseudo(member) + '\n'
+	    try:
+	    	await ctx.send(embed=embed)
+	    except Exception:
+	    	await ctx.send('The list might be too long, consider using\n```'+ctx.message.content+' -o filename```')
 
 def setup(bot):
     bot.add_cog(ListCog(bot))

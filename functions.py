@@ -29,7 +29,7 @@ def pseudo(member):
             return member.nick
     return
 
-def check_statut(member, status):
+def check_status(member, status):
     """Checks the member's status
 
     Parameters

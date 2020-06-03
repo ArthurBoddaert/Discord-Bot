@@ -50,7 +50,7 @@ class GrantCog(commands.Cog):
 				target = None
 				oldTarget = None
 				for line in fileLines:
-					row = line.split(':')
+					row = line.split(';')
 					if len(row) == 3 and ',' in row[2]:
 						rolesToGrant = row[2].split(',')
 						for member in targetGuild.members:
