@@ -73,10 +73,10 @@ you can add a few arguments in order to change the result of this command
 
 Examples:
 - --list
-- --list owner
+- --list role
 - --list online
-- --list online owner
-- --list owner member
+- --list online role
+- --list role member
 - --list online offline
 - --list my_voice_channel
 - --list -o my_file_name
