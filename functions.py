@@ -4,6 +4,9 @@ Created By : Delepoulle Samuel and Boddaert Arthur
 
 import discord as discord
 from discord.ext import commands
+import pandas as pandas
+import matplotlib.pyplot as plot
+import discord.utils
 
 def pseudo(member):
     """Checks if the member has a nickname or not
@@ -152,3 +155,17 @@ def regional_indicator(character):
     if character == 'z':
         return '\U0001F1FF'
     return False
+
+def create_diagram(message, name):
+    if isinstance(message, discord.Message):
+        voteList = []
+        index = []
+        for reaction in message.reactions:
+            voteList.append(reaction.count)
+            index.append(chr(97+message.reactions.index(reaction)))
+        data = {
+            "Votes":voteList
+        }
+        dataFrame = pandas.DataFrame(data=data, index=index)
+        dataFrame.plot.bar(rot=15, title=name)
+        plot.savefig('./files/sondage/'+name+'.png')

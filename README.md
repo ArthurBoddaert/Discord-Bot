@@ -32,6 +32,8 @@ source ./my_virtual_environment/bin/activate
 4. Now that the virtual environment is activated, you can install the dependencies
 ```
 pip install discord.py==1.3.3
+pip install pandas==1.0.4
+pip install matplotlib==3.2.1
 ```
 
 5. Open the **config.json** file and fill it with your informations

@@ -55,10 +55,11 @@ async def on_message_delete(message):
 			embed.description = ' '
 			for reaction in message.reactions:
 				embed.description += '\n' + reaction.emoji + ' : ' + str(reaction.count) + ' answer(s)'
-			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=message.embeds[0])
-			await bot.get_user(int(message.embeds[0].footer.text)).send(embed=embed)
 			await message.channel.send(embed=message.embeds[0])
 			await message.channel.send(embed=embed)
+			create_diagram(message, str(message.id))
+			image = discord.File('./files/sondage/'+str(message.id)+'.png', filename=str(message.id)+'.png')
+			await message.channel.send(file=image)
 			
 	# ***********************************************************
 

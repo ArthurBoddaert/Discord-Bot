@@ -43,22 +43,30 @@ class SondageCog(commands.Cog):
 			embed = discord.Embed(title=config['prefix']+'sondageUnique')
 		else:
 			embed = discord.Embed(title=config['prefix']+'sondage')
-		embed.set_footer(text=str(ctx.message.author.id))
-		argSentence = " ".join(arguments)
-		argList = argSentence.split('|')
-		embed.description = "**" + argList[0] + "**" + "\n"
+		embed.description = "**" + arguments[0] + "**" + "\n"
 		reactionList = []
-		for i in range(len(argList)):
+		for i in range(len(arguments)):
 			reactionList.append("regional_indicator_"+chr(i+96))
-		for answer in argList:
-			if answer != argList[0]:
-				embed.description += "\n" + ":" + reactionList[argList.index(answer)] + ": :" + answer;
+		for answer in arguments:
+			if answer != arguments[0]:
+				embed.description += "\n" + ":" + reactionList[arguments.index(answer)] + ": :" + answer;
 		message = await ctx.send(embed=embed)
+		if delay == 0:
+			await ctx.send('```Survey ID : '+str(message.id)+'```')
 		for reaction in reactionList:
 			if reaction != reactionList[0]:
 				await message.add_reaction(regional_indicator(chr(96+reactionList.index(reaction))))
 		if delay > 0:
 			await message.delete(delay=delay)
+
+	@commands.command()
+	async def result(self, ctx, survey_id):
+		try:
+			create_diagram(await ctx.channel.fetch_message(int(survey_id)), survey_id)
+			image = discord.File('./files/sondage/'+survey_id+'.png', filename=survey_id+'.png')
+			await ctx.send(file=image)
+		except:
+			await ctx.send('Message not found')
 
 def setup(bot):
 	bot.add_cog(SondageCog(bot))

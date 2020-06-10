@@ -46,7 +46,7 @@ class ListCog(commands.Cog):
 	    memberListRole = []
 	    memberListStatus = []
 	    memberListChannel = []
-	    if len(args) == 0:
+	    if len(args) == 0 or ('-o' in args and len(args) <= 2):
 	    	for member in ctx.guild.members:
 	    		if not member.bot:
 	    			memberList.append(member)
@@ -95,26 +95,30 @@ class ListCog(commands.Cog):
 	    		memberList = memberListStatus
 	    	elif len(memberListChannel) > 0 and len(memberListRole) == 0 and len(memberListStatus) == 0:
 	    		memberList = memberListChannel
-	    	# if 'args' contains '-o'
-	    	if len(args) >= 2 and args[len(args)-2] == '-o':
-	    		file = open('./files/list-o/'+args[len(args)-1]+'.txt', 'w+')
+	    # if 'args' contains '-o'
+	    if '-o' in args:
+	    	file = open('./files/list-o/'+args[len(args)-1]+'.txt', 'w+')
+	    	roleNameList = []
+	    	rows = []
+	    	for member in memberList:
 	    		roleNameList = []
-	    		rows = []
-	    		for member in memberList:
-	    			for role in member.roles:
-	    				roleNameList.append(role.name)
-	    			rows.append(pseudo(member)+';'+str(member.id)+';'+','.join(roleNameList))
-	    		file.write('\n'.join(rows))
-	    		file.close()
-	    		return await ctx.send(file=discord.File('./files/list-o/'+args[len(args)-1]+'.txt', filename=args[len(args)-1]))
-	    embed = discord.Embed(title=config['prefix']+'list')
-	    embed.description = str(len(memberList)) + ' user(s) found \n\n'
-	    for member in memberList:
-	    	embed.description += pseudo(member) + '\n'
-	    try:
-	    	await ctx.send(embed=embed)
-	    except Exception:
-	    	await ctx.send('The list might be too long, consider using\n```'+ctx.message.content+' -o filename```')
+	    		for role in member.roles:
+	    			roleNameList.append(role.name)
+	    		rows.append(pseudo(member)+';'+str(member.id)+';'+','.join(roleNameList))
+	    	file.write('\n'.join(sorted(rows, key=lambda v: v.upper())))
+	    	file.close()
+	    	return await ctx.send(file=discord.File('./files/list-o/'+args[len(args)-1]+'.txt', filename=args[len(args)-1]))
+	    else:
+	    	rows = []
+	    	embed = discord.Embed(title=config['prefix']+'list')
+	    	embed.description = str(len(memberList)) + ' user(s) found \n\n'
+	    	for member in memberList:
+	    		rows.append(pseudo(member))
+	    	embed.description += '\n'.join(sorted(rows, key=lambda v: v.upper()))
+	    	try:
+	    		await ctx.send(embed=embed)
+	    	except Exception:
+	    		await ctx.send('The list might be too long, consider using\n```'+ctx.message.content+' -o filename```')
 
 def setup(bot):
     bot.add_cog(ListCog(bot))
