@@ -1,6 +1,6 @@
-[![made-with](https://img.shields.io/badge/Made%20with-Python_3.6_or_higher-1f425f.svg)](https://www.python.org/) [![made-with](https://img.shields.io/badge/Made%20with-Discord.py_1.3.3-1f425f.svg)](https://discordpy.readthedocs.io/en/latest/)
+[![made-with](https://img.shields.io/badge/Made%20with-Python_3.6_or_higher-1f425f.svg)](https://www.python.org/) [![made-with](https://img.shields.io/badge/Made%20with-Discord.py_1.3.3-1f425f.svg)](https://discordpy.readthedocs.io/en/latest/) 
 
-# Discord-Bot
+# Discord-Bot [![Version](https://img.shields.io/badge/Version-1.0-yellow.svg)]()
 by [ArthurBoddaert](https://github.com/ArthurBoddaert) and [delepoulle](https://github.com/delepoulle)
 
 This project is a discord bot created in order to manage discord server's users
@@ -101,14 +101,17 @@ The 'sondage' command sends a survey with the specified question and answers.
 This command has a limit of 26 answers.
 By using the command 'sondageUnique', you can get the same kind of survey, except the fact that only one answer can be given per user.
 The argument '-d' followed by a number 'n' will make this survey last 'n' seconds.
+Using the 'sondage' keyword also gives you the id of the survey.
 
 Examples:
-- --sondage my question | first answer | second answer | third answer  
-- --sondageUnique my question | first answer | second answer | third answer 
-- --sondage -d60 my question | first answer | second answer | third answer 
-- --sondageUnique -d60 my question | first answer | second answer | third answer 
+- --sondage "my question" "first answer" "second answer" "third answer"  
+- --sondageUnique "my question" "first answer" "second answer" "third answer"  
+- --sondage -d60 "my question" "first answer" "second answer" "third answer"  
+- --sondageUnique -d60 "my question" "first answer" "second answer" "third answer"  
 
+You can get a graph which represents the results of a survey thanks to the command 'result' followed by a survey id. A temporary survey will also upload a graph when it ends.
 
+#### getlogs command
 
 The 'getlogs' commands send you the logs of the bot, which contains the list of commands called when the bot was online
 
