@@ -59,8 +59,19 @@ class SondageCog(commands.Cog):
 		if delay > 0:
 			await message.delete(delay=delay)
 
+	command_brief = "Sends a graph which corresponds to the results of a survey"
+	command_help = command_brief + "\n" + "The survey id is given when the 'sondage' command is called" + "\n" + "In case you use the 'sondageUnique' keyword, the survey id isn't sent but a graph is uploaded at the end of the timer"
 	@commands.command()
-	async def result(self, ctx, survey_id):
+	async def result(self, ctx, survey_id, brief=command_brief, help=command_help):
+		"""Uploads a graph corresponding to a survey
+
+		Parameters
+		----------
+		ctx: Context
+			The context of the message
+		survey_id: str
+			The id of the survey
+		"""
 		try:
 			create_diagram(await ctx.channel.fetch_message(int(survey_id)), survey_id)
 			image = discord.File('./files/sondage/'+survey_id+'.png', filename=survey_id+'.png')

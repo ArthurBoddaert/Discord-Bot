@@ -157,6 +157,15 @@ def regional_indicator(character):
     return False
 
 def create_diagram(message, name):
+    """Creates and saves a diagram
+
+    Parameters
+    ----------
+    message: discord.Message
+        A message object with reactions
+    name: str
+        File name
+    """
     if isinstance(message, discord.Message):
         voteList = []
         index = []

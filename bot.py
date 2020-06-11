@@ -75,6 +75,14 @@ bot.load_extension('cogs.sondage')
 
 @bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
+	"""
+	Sends the command logs to the author
+
+	Parameters
+	----------
+    ctx: Context
+        The context of the message
+	"""
 	if isAdministrator(ctx.message.author, ctx.message.guild):
 		file = open('./files/logs/logs.txt', 'w+')
 		file.write('\n'.join(log))
