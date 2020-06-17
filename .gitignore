@@ -1,1 +1,4 @@
+__pycache__/
+cogs/__pycache__/
+my_virtual_environment/
 config.json
