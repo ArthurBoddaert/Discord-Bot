@@ -14,9 +14,10 @@ This bot includes several point
 
 You can find informations about virtual environment [here](https://docs.python.org/3/library/venv.html)
 
-1. To start, you have to clone the project
+1. To start, you have to clone the project and go into the folder
 ```
 git clone https://github.com/ArthurBoddaert/Discord-Bot
+cd Discord-Bot
 ```
 
 2. In the previously cloned project, you can create a virtual environment
