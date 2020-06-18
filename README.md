@@ -21,6 +21,7 @@ git clone https://github.com/ArthurBoddaert/Discord-Bot
 
 2. In the previously cloned project, you can create a virtual environment
 ```
+cd Discord-Bot
 python3 -m venv ./my_virtual_environment
 ```
 
