@@ -72,6 +72,8 @@ bot.load_extension('cogs.list')
 bot.load_extension('cogs.dm')
 bot.load_extension('cogs.grant')
 bot.load_extension('cogs.sondage')
+bot.load_extension('cogs.version')
+
 
 @bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
