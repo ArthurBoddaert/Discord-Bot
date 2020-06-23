@@ -27,10 +27,15 @@ class VersionCog(commands.Cog):
         args: List[str]
             Every single word following the name of the command
         """
+        rows = []
+        versionFile = []
 
+        file = open('./files/version/version.txt', "r")
+        text = file.read()
+        
+        # print(file.read())
         embed = discord.Embed(title=config['prefix']+"version")
         embed.add_field(name="Author:", value=ctx.message.author, inline=False)
-        text = "Bot version : 1.0.0"
         embed.description = text
         await ctx.send(embed=embed)
 
