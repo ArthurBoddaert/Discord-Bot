@@ -31,7 +31,7 @@ class VersionCog(commands.Cog):
         versionFile = []
 
         file = open('./files/version/version.txt', "r")
-        text = file.read()
+        text = file.read() + "\nGit Repository : https://github.com/ArthurBoddaert/Discord-Bot"
         
         # print(file.read())
         embed = discord.Embed(title=config['prefix']+"version")
