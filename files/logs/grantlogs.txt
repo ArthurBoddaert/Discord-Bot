@@ -1,0 +1,24 @@
+- Giving the role TD2#714451512000118805 to Fuck l'eau
+- Giving the role TP A#688809254651691031 to Fuck l'eau
+- Giving the role eleveur_de_bot#549988776466841600 to Fuck l'eau
+- Giving the role root#550234108278603786 to Fuck l'eau
+- Removing the role TD2#714451512000118805 from FaenoR
+- Removing the role TP A#688809254651691031 from FaenoR
+- Removing the role root#550234108278603786 from FaenoR
+- Removing the role TD1#714451338099949569 from goyf
+- Removing the role TP A#688809254651691031 from goyf
+- Removing the role root#550234108278603786 from goyf
+- Giving the role TD1#714451338099949569 to goyf
+- Giving the role TP A#688809254651691031 to goyf
+- Giving the role root#550234108278603786 to goyf
+- Removing the role TD1#714451338099949569 from pi314
+- Removing the role dm#717289455819554860 from Manwald
+- Removing the role TD1#714451338099949569 from Manwald
+- Removing the role TP C#688809392744693787 from Manwald
+- Removing the role TP A#688809254651691031 from Manwald
+- Removing the role root#550234108278603786 from Manwald
+- Giving the role dm#717289455819554860 to Manwald
+- Giving the role TD2#714451512000118805 to Manwald
+- Giving the role TP C#688809392744693787 to Manwald
+- Giving the role TP A#688809254651691031 to Manwald
+- Giving the role root#550234108278603786 to Manwald
