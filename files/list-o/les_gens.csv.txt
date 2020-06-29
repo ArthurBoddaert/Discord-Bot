@@ -1,5 +1,0 @@
-Arthur Boddaert;229571177318711298;@everyone,TD2,TP A,eleveur_de_bot,root
-Clément Deloison;231087005319168000;@everyone,root
-Franck Vandewiele;413712563151306763;@everyone,TD1,TP A,root
-pi314;689872778634985564;@everyone,TD1
-Samuel Delepoulle;362520959233818634;@everyone,dm,TD1,TP C,TP A,root
