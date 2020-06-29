@@ -32,17 +32,7 @@ class GrantCog(commands.Cog):
 		targetGuild = ctx.message.guild
 		if isAdministrator(ctx.message.author, targetGuild):
 			if len(ctx.message.attachments) > 0:
-				if len(args) > 0 and (args[0] == '-r' or args[0] == '-reset'):
-					for member in targetGuild.members:
-						for role in member.roles:
-							if role.name != '@everyone' and role.managed == False:
-								try:
-									await member.remove_roles(role)
-									print(f'- Removing the role {role.name}#{role.id} from {member.name}')
-									logs.append(f'- Removing the role {role.name}#{role.id} from {member.name}')
-								except:
-									print(f"- ERROR: can't remove the role {role.name}#{role.id} from {member.name}")
-									logs.append(f"- ERROR: can't remove the role {role.name}#{role.id} from {member.name}")
+				
 				attachedFile = await ctx.message.attachments[0].to_file()
 				file = attachedFile.fp
 				fileText = file.read().decode("utf-8")
@@ -58,17 +48,35 @@ class GrantCog(commands.Cog):
 								if target is not None:
 									oldTarget = target
 								target = member
+
+						# suppress all role for target		
+						if len(args) > 0 and (args[0] == '-r' or args[0] == '-reset'):							
+								for role in target.roles:
+									if role.name != '@everyone' and role.managed == False:
+										try:
+											await target.remove_roles(role)
+											print(f'- Removing the role {role.name}#{role.id} from {target.name}')
+											logs.append(f'- Removing the role {role.name}#{role.id} from {target.name}')
+										except:
+											print(f"- ERROR: can't remove the role {role.name}#{role.id} from {target.name}")
+											logs.append(f"- ERROR: can't remove the role {role.name}#{role.id} from {target.name}")
+
+						# give role in the file
 						for role in rolesToGrant:
-							if role != '@everyone' and get(targetGuild.roles, name=role).managed == False:
-								if oldTarget != target and get(targetGuild.roles, name=role) not in target.roles:
-									try:
-										await target.add_roles(get(targetGuild.roles, name=role))
-										print(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
-										logs.append(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
-									except:
-										print(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
-										logs.append(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
-				file = open('./files/logs/grantlogs.txt', 'w+')
+							try:							
+								if role != '@everyone' and get(targetGuild.roles, name=role).managed == False:
+									if oldTarget != target and get(targetGuild.roles, name=role) not in target.roles:
+										try:
+											await target.add_roles(get(targetGuild.roles, name=role))
+											print(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
+											logs.append(f'- Giving the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} to {target.name}')
+										except:
+											print(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
+											logs.append(f"- ERROR: can't give the role {get(targetGuild.roles, name=role).name}#{get(targetGuild.roles, name=role).id} from {target.name}")
+							except:
+								# a role is empty
+								logs.append(f"- WARRNING: a role is empty")				
+					file = open('./files/logs/grantlogs.txt', 'w+')
 				file.write('\n'.join(logs))
 				file.close()
 				return await ctx.message.author.send(file=discord.File('./files/logs/grantlogs.txt', filename='grantlogs'))
