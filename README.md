@@ -10,7 +10,41 @@ This bot includes several point
 - Publication of a message to a given population
 - Distribution discord roles to a large amount of user
 
-## Installation
+## Installation and exectution
+
+We recommend to use docker environment to execute the bot. An alternative method using python virtual environment (venv) is provided if you don't want to use docker.
+
+### docker installation and run
+
+1. To start, you have to clone the project and go into the folder
+```
+git clone https://github.com/ArthurBoddaert/Discord-Bot
+cd Discord-Bot
+```
+
+2. Open the **config.json** file and fill it with your informations
+```json
+{
+	"prefix": "YOUR BOT PREFIX",
+	"token": "YOUR DISCORD TOKEN",
+}
+```
+The prefix is the succession of characters which will be used to call the commands
+The token is your discord bot token, which can be found on https://discord.com/developers after registering an app
+
+3. Construct the docker image 
+```
+docker build -t mybot .
+```
+
+`mybot` is the name of the docker image, you can change it if you wish.
+
+4. Run the docker image
+```
+docker run -d mybot .
+```
+
+### python only installation and run
 
 You can find informations about virtual environment [here](https://docs.python.org/3/library/venv.html)
 
