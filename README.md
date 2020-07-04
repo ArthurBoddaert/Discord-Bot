@@ -120,15 +120,21 @@ Examples:
 
 #### dm command
 
-The 'dm' command followed by a role name and a message sends the message to every user who has the specified role. The message can also have an attachment
+The 'dm' command followed by a role name and a message sends the message to every user who has the specified role. The message can also have an attachment.
+Add " " when targeting role name containing spaces. 
 
 Example:
-	--dm Members Hello world!
+	--dm role_to_dm Hello world!
+	--dm "role to dm" Hello world!
 
 #### grant command
 
 The 'grant' command grants roles depending on the attached file. The previously mentioned file has to follow the format of the 'list -o' command.
 With the '-r' or '-reset' argument, the bot will remove every role from every user and then it will grant the fiven roles.
+
+Examples:
+- --grant "role_to_grant"  + attached file
+- --grant -r "role_to_reset" + attached file
 
 #### sondage command
 
@@ -146,8 +152,22 @@ Examples:
 
 You can get a graph which represents the results of a survey thanks to the command 'result' followed by a survey id. A temporary survey will also upload a graph when it ends.
 
+#### poll command
+
+The 'poll' command will read questions contained in an attached file and send them to users of a specified role.
+The file must have each question on different lines in order for the bot to read them. It will then send all questions one by one to targeted users.
+There are no arguments for this command.
+
+Example:
+- --poll "role_to_poll" + attached file
+
 #### getlogs command
 
 The 'getlogs' commands send you the logs of the bot, which contains the list of commands called when the bot was online
 
 Both the 'grant' command and the 'getlogs' command can only be called by administrators
+
+#### version command
+
+The 'version' command display the bot active version in the current channel. it also gives the GIT repository link.
+
