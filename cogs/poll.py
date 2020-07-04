@@ -50,19 +50,23 @@ class PollCog(commands.Cog):
                 await destinataire.send('A poll has been issued for you, please answer correctly to the following questions :')
                 for line in fileLines:
                     # dm targets 
-                    await destinataire.send(content=line)
-                    
-                    #wait reply
                     try:
-                        msg = await self.bot.wait_for('message', check=lambda message: not message.author.bot, timeout=60)
-                        answer.append('Question : '+str(line)+'\nAnswer : '+msg.content+'\n')
-                    except TimeoutError: 
-                        return await message.channel.send("Timed out, try again.")
-                    
-                    await destinataire.send('Ok, Answer registered\n')
+                        await destinataire.send(content=line)
+ 
+                        #wait reply
+                        try:
+                            msg = await self.bot.wait_for('message', check=lambda message: not message.author.bot, timeout=60)
+                            answer.append('Question : '+str(line)+'\nAnswer : '+msg.content+'\n')
+                        except TimeoutError: 
+                            return await message.channel.send("Timed out, try again.")
+                        
+                        await destinataire.send('Ok, Answer registered\n')
+                    except : 
+                        print("Empty line")
                 await destinataire.send('**Poll is finished, thanks for answering**')    
                 # write results
                 f.write('\n'.join(answer))
+                answer[:] = []
                 f.close()
                 # dm author result file 
                 answers = discord.File('./files/poll/'+pseudo(destinataire)+'_answers.txt', filename=""+pseudo(destinataire)+"_answers.txt")    
