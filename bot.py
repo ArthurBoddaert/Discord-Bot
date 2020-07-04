@@ -30,9 +30,9 @@ async def on_command(ctx):
 	return
 
 @bot.event
-async def on_message(message):
-    await bot.process_commands(message) # necessary to keep both use on_message() and commands
-
+async def on_message(message):   
+	await bot.process_commands(message) # necessary to keep both use on_message() and commands
+    
 @bot.event
 async def on_reaction_add(reaction, user):
 	# ***** '--sondage' command with a single answer per user *****
@@ -73,7 +73,7 @@ bot.load_extension('cogs.dm')
 bot.load_extension('cogs.grant')
 bot.load_extension('cogs.sondage')
 bot.load_extension('cogs.version')
-
+bot.load_extension('cogs.poll')
 
 @bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
