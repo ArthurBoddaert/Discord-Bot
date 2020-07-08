@@ -6,6 +6,7 @@ import discord as discord
 from discord.ext import commands
 from discord.utils import get
 from functions import *
+from threading import Thread
 import discord.utils
 import json
 
@@ -19,6 +20,7 @@ user = discord.Client()
 class PollCog(commands.Cog):
 
     def __init__(self, bot):
+        Thread.__init__(self)
         self.bot = bot
         
     @commands.command(name="poll")
@@ -43,20 +45,24 @@ class PollCog(commands.Cog):
             fileText = file.read().decode("utf-8")
             fileLines = fileText.split('\n')
             answer = []
-            # get file lines
+            poll = []
+            poll_id = str(ctx.message.id)
+            
+            #generate answers file
+            f = open('./files/poll/'+poll_id+'_answers.csv', "w+")
+            
+            # get targets
             for destinataire in destinataires:
-                f = open('./files/poll/'+pseudo(destinataire)+'_answers.txt', "w")
-                answer.append('Poll Answer for user '+pseudo(destinataire)+' :\n')
-                await destinataire.send('A poll has been issued for you, please answer correctly to the following questions :')
-                for line in fileLines:
+                await destinataire.send('A poll has been issued for you by'+pseudo(ctx.message.author)+', please answer correctly to the following questions :')
+                # get file lines
+                for row in fileLines:
                     # dm targets 
                     try:
-                        await destinataire.send(content=line)
- 
+                        await destinataire.send(content=row)
                         #wait reply
                         try:
                             msg = await self.bot.wait_for('message', check=lambda message: not message.author.bot, timeout=60)
-                            answer.append('Question : '+str(line)+'\nAnswer : '+msg.content+'\n')
+                            answer.append('"'+msg.content+'"')
                         except TimeoutError: 
                             return await message.channel.send("Timed out, try again.")
                         
@@ -65,12 +71,14 @@ class PollCog(commands.Cog):
                         print("Empty line")
                 await destinataire.send('**Poll is finished, thanks for answering**')    
                 # write results
-                f.write('\n'.join(answer))
+                poll.append(pseudo(destinataire)+';'+str(destinataire.id)+';'+','.join(answer))
                 answer[:] = []
-                f.close()
-                # dm author result file 
-                answers = discord.File('./files/poll/'+pseudo(destinataire)+'_answers.txt', filename=""+pseudo(destinataire)+"_answers.txt")    
-                await ctx.message.author.send("User "+pseudo(destinataire)+" has finished answering the poll : ", file=answers)
+            f.write('\n'.join(sorted(poll, key=lambda v: v.upper())))
+            f.close() 
+            
+            # dm author result file 
+            answers = discord.File('./files/poll/'+poll_id+'_answers.csv', filename=''+poll_id+'_answers.csv')
+            await ctx.message.author.send("All users have finished answering the poll.\n Answers file", file=answers)
         else:
             return await ctx.message.author.send('You do not have the permissions to use this command')
 
