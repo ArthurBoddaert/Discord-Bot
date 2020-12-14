@@ -63,6 +63,16 @@ async def on_message_delete(message):
 			
 	# ***********************************************************
 
+@bot.event
+async def on_voice_state_update(member, before, after):
+	the_guild = member.guild
+	category = discord.utils.get(the_guild.categories, name=config['temp_category'])	
+	if (before.channel.category == category) :
+		if before is not None:
+			if (len(before.channel.members) == 0) :
+				await before.channel.delete()
+
+
 # ****************************************************************************
 # commands
 # ****************************************************************************
@@ -74,6 +84,7 @@ bot.load_extension('cogs.grant')
 bot.load_extension('cogs.sondage')
 bot.load_extension('cogs.version')
 bot.load_extension('cogs.poll')
+bot.load_extension('cogs.temp')
 
 @bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
