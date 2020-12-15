@@ -15,8 +15,18 @@ class TempCog(commands.Cog):
         the_guild = ctx.guild
         category = discord.utils.get(the_guild.categories, name=config['temp_category'])
 
+        if ctx.message.author.guild_permissions.administrator : 
+            if args[0] == "--clear" :
+                for channel in category.voice_channels :
+                        if (len(channel.members) == 0) :
+                            await channel.delete()
+                return
+
+
         await the_guild.create_voice_channel(args[0],category=category)
         return await ctx.send('create new vocal chanel '+args[0]+' in '+str(ctx.guild)+" category = "+str(category))
+
+        
         
 
 def setup(bot):
