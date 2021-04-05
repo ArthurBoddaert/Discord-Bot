@@ -10,7 +10,8 @@ import json
 with open('./config.json', 'r') as f:
 	config = json.load(f)
 
-bot = commands.Bot(command_prefix=config['prefix'])
+intents = discord.Intents().all()
+bot = commands.Bot(command_prefix=config['prefix'], intents=intents)
 
 log = [] # not used for the moment
 

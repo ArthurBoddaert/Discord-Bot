@@ -50,6 +50,7 @@ class ListCog(commands.Cog):
 		if len(args) == 0 or ('-o' in args and len(args) <= 2):
 			find = True
 			for member in ctx.guild.members:
+				print(member.name)
 				if not member.bot:
 					memberList.append(member)					
 		else:			

@@ -171,3 +171,6 @@ Both the 'grant' command and the 'getlogs' command can only be called by adminis
 
 The 'version' command display the bot active version in the current channel. it also gives the GIT repository link.
 
+# Change log #
+
+- version 1.2.2 : correct for discord.py API 1.7.0 

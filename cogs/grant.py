@@ -79,7 +79,7 @@ class GrantCog(commands.Cog):
 					file = open('./files/logs/grantlogs.txt', 'w+')
 				file.write('\n'.join(logs))
 				file.close()
-				return await ctx.message.author.send(file=discord.File('./files/logs/grantlogs.txt', filename='grantlogs'))
+				return await ctx.message.author.send(file=discord.File('./files/logs/grantlogs.txt', filename='grantlogs.txt'))
 			else:
 				await ctx.send("No attachment found")
 		else:
