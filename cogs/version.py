@@ -7,6 +7,8 @@ from discord.ext import commands
 from discord.utils import get
 from functions import *
 import json
+import re
+import os
 
 with open('./config.json', 'r') as f:
     config = json.load(f)
@@ -30,8 +32,14 @@ class VersionCog(commands.Cog):
         rows = []
         versionFile = []
 
-        file = open('./files/version/version.txt', "r")
-        text = file.read() + "\nGit Repository : https://github.com/ArthurBoddaert/Discord-Bot"
+        
+
+        # The full version, including alpha/beta/rc tags.
+        release = re.sub('^v', '', os.popen('git describe --tag').read().strip())
+        # The short X.Y version.
+        version = release  
+
+        text = version + "\nGit Repository : https://github.com/ArthurBoddaert/Discord-Bot"
         
         # print(file.read())
         embed = discord.Embed(title=config['prefix']+"version")
