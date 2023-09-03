@@ -29,5 +29,5 @@ class TempCog(commands.Cog):
         
         
 
-def setup(bot):
-    bot.add_cog(TempCog(bot))
+async def setup(bot):
+    await bot.add_cog(TempCog(bot))

@@ -47,5 +47,6 @@ class VersionCog(commands.Cog):
         embed.description = text
         await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(VersionCog(bot))
+async def setup(bot):
+    print("load request")
+    await bot.add_cog(VersionCog(bot))

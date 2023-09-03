@@ -27,9 +27,13 @@ def pseudo(member):
     """
     if isinstance(member, discord.Member):
         if member.nick is None:
-            return member.name
+            print("problème")
+            return member.display_name
         else:
+            print(member.display_name)
             return member.nick
+
+        
     return
 
 def check_status(member, status):

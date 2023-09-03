@@ -37,5 +37,5 @@ class RolelistCog(commands.Cog):
 	    embed.description = text
 	    await ctx.send(embed=embed)
 
-def setup(bot):
-    bot.add_cog(RolelistCog(bot))
+async def setup(bot):
+    await bot.add_cog(RolelistCog(bot))

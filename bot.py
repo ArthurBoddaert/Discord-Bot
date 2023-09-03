@@ -6,6 +6,7 @@ import discord as discord
 from discord.ext import commands
 from functions import *
 import json
+import asyncio
 
 with open('./config.json', 'r') as f:
 	config = json.load(f)
@@ -74,18 +75,40 @@ async def on_voice_state_update(member, before, after):
 				await before.channel.delete()
 
 
+# Définissez une fonction asynchrone pour charger l'extension
+async def load_my_extension():
+    print("load extension")
+    try:
+        # Utilisez le mot-clé "await" pour attendre que l'extension soit chargée
+        await bot.load_extension('cogs.version')
+        await bot.load_extension('cogs.list')
+        await bot.load_extension('cogs.rolelist')
+        await bot.load_extension('cogs.dm')
+        await bot.load_extension('cogs.grant')
+        await bot.load_extension('cogs.sondage')
+        await bot.load_extension('cogs.poll')
+        await bot.load_extension('cogs.temp')
+
+     
+ 
+        print('Extension chargée avec succès')
+    except Exception as e:
+        print(f'Erreur lors du chargement de l\'extension : {e}')
+
 # ****************************************************************************
 # commands
 # ****************************************************************************
 
-bot.load_extension('cogs.rolelist')
-bot.load_extension('cogs.list')
-bot.load_extension('cogs.dm')
-bot.load_extension('cogs.grant')
-bot.load_extension('cogs.sondage')
-bot.load_extension('cogs.version')
-bot.load_extension('cogs.poll')
-bot.load_extension('cogs.temp')
+
+#bot.load_extension('cogs.rolelist')
+#bot.load_extension('cogs.list')
+#bot.loop.run_until_complete(load_my_extension())
+#bot.load_extension('cogs.dm')
+#bot.load_extension('cogs.grant')
+#bot.load_extension('cogs.sondage')
+#bot.load_extension('cogs.version')
+#bot.load_extension('cogs.poll')
+#bot.load_extension('cogs.temp')
 
 @bot.command(name='getlogs', hidden=True)
 async def getlogs(ctx):
@@ -110,5 +133,17 @@ async def getlogs(ctx):
 def main():
 	bot.run(config['token'])
 
+# Fonction asynchrone pour démarrer le bot
+async def start_bot():
+
+    await load_my_extension()
+    await bot.start(config['token'])
+    print("bot starting")
+    #await bot.wait_until_ready()
+    print("bot ready")
+    #await load_my_extension()
+
 if __name__ == '__main__':
-	main()
+	#main()
+        print("main")
+        asyncio.run(start_bot())

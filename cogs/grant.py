@@ -85,5 +85,5 @@ class GrantCog(commands.Cog):
 		else:
 			return await ctx.message.author.send('You do not have the permissions to use this command')
 
-def setup(bot):
-	bot.add_cog(GrantCog(bot))
+async def setup(bot):
+	await bot.add_cog(GrantCog(bot))

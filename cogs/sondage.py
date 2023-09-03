@@ -79,5 +79,5 @@ class SondageCog(commands.Cog):
 		except:
 			await ctx.send('Message not found')
 
-def setup(bot):
-	bot.add_cog(SondageCog(bot))
+async def setup(bot):
+	await bot.add_cog(SondageCog(bot))

@@ -131,5 +131,5 @@ class ListCog(commands.Cog):
 				except Exception:
 					await ctx.send('The list might be too long, consider using\n```'+ctx.message.content+' -o filename```')
 
-def setup(bot):
-	bot.add_cog(ListCog(bot))
+async def setup(bot):
+	await bot.add_cog(ListCog(bot))
